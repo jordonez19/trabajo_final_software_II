@@ -1,11 +1,14 @@
+import routes from './routes/router';
 import pkj from "../package.json";
+import { createRoles } from './libs/initialSetup';
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
 
+createRoles()
+
 app.use(express.json());
 app.use(morgan("tiny"));
-
 app.set('pkj', pkj)
 
 app.get("/", (req, res) => {
@@ -16,5 +19,7 @@ app.get("/", (req, res) => {
     description: app.get('pkj').description,
   });
 });
+
+routes(app);
 
 export default app;
