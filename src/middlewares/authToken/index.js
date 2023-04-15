@@ -3,7 +3,7 @@ import config from "../../config";
 import Jwt from "jsonwebtoken";
 import UserModel from "../../models/user";
 import RoleModel from "../../models/roles";
-
+//-------------------------------------------------------------
 export const verifyToken = async (req, res, next) => {
   try {
     const token = req.headers["access-token"]; //pedimos el token
@@ -21,7 +21,7 @@ export const verifyToken = async (req, res, next) => {
     return res.status(404).json({ message: "Unauthorized" });
   }
 };
-
+//-------------------------------------------------------------
 export const isModerator = async (req, res, next) => {
   const user = await UserModel.findById(req.userId);
   const roles = await RoleModel.find({ _id: { $in: user.roles } });
@@ -34,7 +34,7 @@ export const isModerator = async (req, res, next) => {
   }
   res.status(403).json({ message: "Require moderator role" });
 };
-
+//-------------------------------------------------------------
 export const isAdmin = async (req, res, next) => {
   const user = await UserModel.findById(req.userId);
   const roles = await RoleModel.find({ _id: { $in: user.roles } });
