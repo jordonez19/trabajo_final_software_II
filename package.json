@@ -1,7 +1,7 @@
 {
-  "name": "Api_company",
+  "name": "My Api",
   "version": "1.0.0",
-  "description": "A company app",
+  "description": "This is a personal api rest",
   "main": "index.js",
   "scripts": {
     "start": "node build/index.js",

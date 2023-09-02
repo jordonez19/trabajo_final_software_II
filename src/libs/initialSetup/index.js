@@ -12,7 +12,7 @@ export const createRoles = async () => {
       new RolesModel({ name: "admin" }).save(),
     ]);
 
-    console.log(values);
+    console.log('Init Values Started: ',values);
 
   } catch (error) {
     console.error(error);

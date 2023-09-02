@@ -2,7 +2,6 @@ import { Router } from "express";
 import * as productsController from "../../controllers/products";
 import { authToken } from "../../middlewares";
 const router = Router();
-
 router.get("/", [authToken.verifyToken], productsController.getProducts);
 
 router.get("/:id", [authToken.verifyToken], productsController.getProductById);
