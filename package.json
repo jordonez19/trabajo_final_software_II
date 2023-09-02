@@ -1,5 +1,5 @@
 {
-  "name": "My Api",
+  "name": "my-awesome-api",
   "version": "1.0.0",
   "description": "This is a personal api rest",
   "main": "index.js",
