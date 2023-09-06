@@ -4,7 +4,7 @@
   "description": "This is a personal api rest",
   "main": "index.js",
   "scripts": {
-    "start": "node build/index.js",
+    "start": "node dist/index.js",
     "build": "babel src --out-dir dist",
     "dev": "nodemon src/index.js --exec babel-node"
   },
