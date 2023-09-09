@@ -1,7 +1,7 @@
 {
-  "name": "my-awesome-api",
+  "name": "auth_api",
   "version": "1.0.0",
-  "description": "This is a personal api rest",
+  "description": "api_rest",
   "main": "index.js",
   "scripts": {
     "start": "node dist/index.js",
@@ -9,7 +9,7 @@
     "dev": "nodemon src/index.js --exec babel-node"
   },
   "keywords": [],
-  "author": "XaviDev",
+  "author": "Xavi",
   "license": "ISC",
   "dependencies": {
     "@babel/node": "^7.20.7",
