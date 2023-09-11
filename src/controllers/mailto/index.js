@@ -1,24 +1,24 @@
 import { transporter, mailOptions } from "../../nodemailer";
 
 const CONTACT_MESSAGE_FIELDS = {
-    name: "Nombre:",
-    email: "Correo:",
-    subject: "Asunto:",
-    message: "Mensaje:",
+  name: "Nombre:",
+  email: "Correo:",
+  subject: "Asunto:",
+  message: "Mensaje:",
 };
 
 const generateEmailContent = (data) => {
-    const stringData = Object.entries(data).reduce((str, [key, value]) => {
-        return (str += ` ${CONTACT_MESSAGE_FIELDS[key]}: \n${value} \n \n `);
-    }, "");
+  const stringData = Object.entries(data).reduce((str, [key, value]) => {
+    return (str += ` ${CONTACT_MESSAGE_FIELDS[key]}: \n${value} \n \n `);
+  }, "");
 
-    const htmlData = Object.entries(data).reduce((str, [key, value]) => {
-        return (str += ` <h1 class="form-heading" align="left" >${CONTACT_MESSAGE_FIELDS[key]}</h1> <p class="form-answer" align="left" >${value}</p> `);
-    }, "");
+  const htmlData = Object.entries(data).reduce((str, [key, value]) => {
+    return (str += ` <h1 class="form-heading" align="left" >${CONTACT_MESSAGE_FIELDS[key]}</h1> <p class="form-answer" align="left" >${value}</p> `);
+  }, "");
 
-    return {
-        text: stringData,
-        html: `<!DOCTYPE html>
+  return {
+    text: stringData,
+    html: `<!DOCTYPE html>
             <html>
             <head>
                 <title></title>
@@ -154,29 +154,29 @@ const generateEmailContent = (data) => {
             </body>
             </html>
             `,
-            
-    };
+  };
 };
 
 export const sendMailTo = async (req, res) => {
-    if (req.method === "POST") {
-        const data = req.body;
-        if (!data.name || !data.email || !data.subject || !data.message) {
-            return res.status(400).json({ message: "Solicitud incorrecta" });
-        }
-        try {
-            const resMail = await transporter.sendMail({
-                ...mailOptions,
-                ...generateEmailContent(data),
-                subject: data.subject,
-            });
-
-            return res.status(200).json({ success: true, mail: resMail, datae: data });
-        } catch (error) {
-            console.error("error sendMailTo =>> ", error);
-            return res.status(400).json({ message: error.message });
-        }
+  if (req.method === "POST") {
+    const data = req.body;
+    if (!data.name || !data.email || !data.subject || !data.message) {
+      return res.status(400).json({ message: "Solicitud incorrecta" });
     }
-    return res.status(400).json({ message: "Solicitud incorrecta" });
-};
+    try {
+      const resMail = await transporter.sendMail({
+        ...mailOptions,
+        ...generateEmailContent(data),
+        subject: data.subject,
+      });
 
+      return res
+        .status(200)
+        .json({ success: true, mail: resMail, datae: data });
+    } catch (error) {
+      console.error("error sendMailTo =>> ", error);
+      return res.status(400).json({ message: error.message });
+    }
+  }
+  return res.status(400).json({ message: "Solicitud incorrecta" });
+};
