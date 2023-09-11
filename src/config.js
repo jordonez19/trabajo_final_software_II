@@ -1,7 +1,7 @@
 export default {
-  SECRET: "productsApi",
+  SECRET: "productsNovaApi",
 };
 export const conection = {
-  PORT: 3001,
-  MONGODB_URI: "mongodb+srv://jordonez:6452487@cluster0.waefubr.mongodb.net/authapi"
+  PORT: 3002,
+  MONGODB_URI: "mongodb+srv://jordonez:6452487@cluster0.waefubr.mongodb.net/novakademia"
 }
