@@ -12,7 +12,7 @@
   "author": "Xavi",
   "license": "ISC",
   "dependencies": {
-    "@babel/node": "^7.20.7",
+    "@babel/node": "^7.22.15",
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
@@ -22,10 +22,10 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.21.0",
-    "@babel/core": "^7.21.4",
+    "@babel/cli": "^7.22.15",
+    "@babel/core": "^7.22.17",
     "@babel/polyfill": "^7.12.1",
-    "@babel/preset-env": "^7.21.4",
+    "@babel/preset-env": "^7.22.15",
     "nodemon": "^2.0.22"
   }
 }
