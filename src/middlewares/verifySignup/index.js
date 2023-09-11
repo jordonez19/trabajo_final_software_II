@@ -5,11 +5,7 @@ import UserModel from "../../models/user";
 export const checkDuplicateUserNameOrEmail = async (req, res, next) => {
 
   const email = await UserModel.findOne({ email: req.body.email });
-
-
   if (email) return res.status(400).json({ message: "The email already exists" });
-
-
   next();
 };
 

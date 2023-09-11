@@ -27,7 +27,7 @@ export const signup = async (req, res) => {
     expiresIn: 86400,
   });
 
-  res.json({ token });
+  res.json({ token:token, user: newUser });
 };
 //---------------------------------------------------------------
 export const signin = async (req, res) => {
@@ -50,5 +50,5 @@ export const signin = async (req, res) => {
     expiresIn: 86400,
   });
 
-  res.json({ token: token });
+  res.json({ token: token, user: userFound});
 };
