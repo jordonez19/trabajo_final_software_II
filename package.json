@@ -1,5 +1,5 @@
 {
-  "name": "novakademia",
+  "name": "betester",
   "version": "1.0.0",
   "description": "api_rest_v1",
   "main": "index.js",
@@ -9,7 +9,12 @@
     "dev": "nodemon src/index.js --exec babel-node"
   },
   "keywords": [],
-  "author": "Xavi",
+  "author": {
+    "name":"Betester",
+    "author1": "Carlos Barbosa",
+    "author2": "Nicolas Perez",
+    "author3": "Javier Ordonez"
+  },
   "license": "ISC",
   "dependencies": {
     "@babel/node": "^7.22.15",

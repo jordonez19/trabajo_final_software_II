@@ -19,6 +19,15 @@ app.get("/", (req, res) => {
     author: app.get("pkj").author,
     version: app.get("pkj").version,
     description: app.get("pkj").description,
+    routes: [
+      "http://localhost:3002/api/products/",
+      "http://localhost:3002/api/auth/signup",
+      "http://localhost:3002/api/auth/signin",
+      "http://localhost:3002/api/users/",
+      "http://localhost:3002/api/mailto/",
+      "http://localhost:3002/api/",
+      "http://localhost:3002/api/",
+    ],
   });
 });
 
