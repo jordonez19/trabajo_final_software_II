@@ -1,75 +1,86 @@
 <!DOCTYPE html>
-            <html>
-            <head>
-                <title></title>
-                <meta charset="utf-8" />
-                <meta name="viewport" content="width=device-width, initial-scale=1" />
-                <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-                <style type="text/css">
-                body,
-                table,
-                td,
-                a {
-                    -webkit-text-size-adjust: 100%;
-                    -ms-text-size-adjust: 100%;
-                }
-                table {
-                    border-collapse: collapse !important;
-                }
-                body {
-                    height: 100% !important;
-                    margin: 0 !important;
-                    padding: 0 !important;
-                    width: 100% !important;
-                }
-                @media screen and (max-width: 525px) {
-                    .wrapper {
-                    width: 100% !important;
-                    max-width: 100% !important;
-                    }
-                    .responsive-table {
-                    width: 100% !important;
-                    }
-                    .padding {
-                    padding: 10px 5% 15px 5% !important;
-                    }
-                    .section-padding {
-                    padding: 0 15px 50px 15px !important;
-                    }
-                }
-                .form-container {
-                    margin-bottom: 24px;
-                    padding: 20px;
-                    border: 1px dashed #ccc;
-                }
-                .form-heading {
-                    color: #2a2a2a;
-                    font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-                    font-weight: 400;
-                    text-align: left;
-                    line-height: 20px;
-                    font-size: 18px;
-                    margin: 0 0 8px;
-                    padding: 0;
-                }
-                .form-answer {
-                    color: #2a2a2a;
-                    font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-                    font-weight: 300;
-                    text-align: left;
-                    line-height: 20px;
-                    font-size: 16px;
-                    margin: 0 0 24px;
-                    padding: 0;
-                }
-                div[style*="margin: 16px 0;"] {
-                    margin: 0 !important;
-                }
-                </style>
-            </head>
-            <body style="margin: 0 !important; padding: 0 !important; background: #fff">
-                <div
-                style="
+<html>
+
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <style type="text/css">
+        body,
+        table,
+        td,
+        a {
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+
+        table {
+            border-collapse: collapse !important;
+        }
+
+        body {
+            height: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100% !important;
+        }
+
+        @media screen and (max-width: 525px) {
+            .wrapper {
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+
+            .responsive-table {
+                width: 100% !important;
+            }
+
+            .padding {
+                padding: 10px 5% 15px 5% !important;
+            }
+
+            .section-padding {
+                padding: 0 15px 50px 15px !important;
+            }
+        }
+
+        .form-container {
+            margin-bottom: 24px;
+            padding: 20px;
+            border: 1px dashed #ccc;
+        }
+
+        .form-heading {
+            color: #2a2a2a;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-weight: 400;
+            text-align: left;
+            line-height: 20px;
+            font-size: 18px;
+            margin: 0 0 8px;
+            padding: 0;
+        }
+
+        .form-answer {
+            color: #2a2a2a;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-weight: 300;
+            text-align: left;
+            line-height: 20px;
+            font-size: 16px;
+            margin: 0 0 24px;
+            padding: 0;
+        }
+
+        div[style*="margin: 16px 0;"] {
+            margin: 0 !important;
+        }
+    </style>
+</head>
+
+<body style="margin: 0 !important; padding: 0 !important; background: #fff">
+    <div style="
                     display: none;
                     font-size: 1px;
                     color: #fefefe;
@@ -78,58 +89,41 @@
                     max-width: 0px;
                     opacity: 0;
                     overflow: hidden;
-                "
-                ></div>
-                <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                <tr>
-                    <td
-                    bgcolor="#ffffff"
-                    align="center"
-                    style="padding: 10px 15px 30px 15px"
-                    class="section-padding"
-                    >
-                    <table
-                        border="0"
-                        cellpadding="0"
-                        cellspacing="0"
-                        width="100%"
-                        style="max-width: 500px"
-                        class="responsive-table"
-                    >
-                        <tr>
+                "></div>
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td bgcolor="#ffffff" align="center" style="padding: 10px 15px 30px 15px" class="section-padding">
+                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 700px"
+                    class="responsive-table">
+                    <tr>
                         <td>
                             <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                            <tr>
-                                <td>
-                                <table
-                                    width="100%"
-                                    border="0"
-                                    cellspacing="0"
-                                    cellpadding="0"
-                                >
-                                    <tr>
-                                    <td
-                                        style="
-                                        padding: 0 0 0 0;
-                                        font-size: 16px;
-                                        line-height: 25px;
-                                        color: #232323;
-                                        "
-                                        class="padding message-content"
-                                    >
-                                        <h2>New Contact Message</h2>
-                                        <div class="form-container">${htmlData}</div>
+                                <tr>
+                                    <td>
+                                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                            <tr>
+                                                <td style="
+                                                    padding: 0 0 0 0;
+                                                    font-size: 16px;
+                                                    line-height: 25px;
+                                                    color: #232323;
+                                                    " class="padding message-content">
+                                                    <h2>Nuevo Mensaje</h2>
+                                                    <div class="form-container">${htmlData}</div>
+                                                </td>
+                                            </tr>
+                                        </table>
                                     </td>
-                                    </tr>
-                                </table>
-                                </td>
-                            </tr>
+                                </tr>
                             </table>
                         </td>
-                        </tr>
-                    </table>
-                    </td>
-                </tr>
+                    </tr>
                 </table>
-            </body>
-            </html>
+            </td>
+        </tr>
+    </table>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla corporis quaerat sunt dolorum neque eum ex eaque provident accusantium ab inventore molestiae, nesciunt sed illo tempora. Neque, repellat aperiam possimus distinctio numquam porro! Praesentium harum esse architecto eaque? Quos, maxime. Enim quos dicta iusto, recusandae laborum error laudantium tenetur magni pariatur labore odit nihil quasi aperiam totam reiciendis dolore cupiditate suscipit dolorum. At non vitae, laboriosam recusandae tenetur consectetur earum facilis suscipit asperiores modi accusamus quidem nam quo minima magni alias vero rem obcaecati explicabo nisi. Ipsam unde fuga dicta assumenda maxime aliquam commodi saepe placeat voluptate odit magnam corrupti non ab, voluptatibus tempora! Debitis quisquam cumque earum rerum ab minima iure recusandae facere, provident sed consequuntur culpa, ex ratione accusantium inventore ullam? Architecto maxime, nihil alias nam exercitationem, fuga rerum doloremque sint dolores quasi vitae ratione itaque quae harum quidem doloribus neque provident at unde quibusdam. Eaque laborum temporibus voluptate laboriosam illum facere qui voluptatem reprehenderit, nihil minus sed, assumenda blanditiis error illo explicabo. Numquam obcaecati voluptate eius veritatis asperiores aliquam quae omnis ipsam adipisci. Aut cupiditate, in dolores facilis rem ipsam velit repellat itaque tempora maiores dolorum excepturi, commodi, neque laborum tenetur autem rerum quo? Nostrum reiciendis in optio esse, accusantium magnam quas, repudiandae inventore facere, ipsum culpa alias ducimus ipsam fuga harum consequuntur et? Nesciunt voluptatum laborum, quibusdam possimus tempora, nemo non voluptatem autem atque a sapiente dolor fuga natus id eaque labore numquam eligendi neque praesentium. Autem commodi nobis, voluptatibus neque in libero aliquam aut doloremque, minus natus eaque sit. Qui suscipit ad maxime deserunt quaerat quidem ducimus quis cum nam magnam tempora autem voluptatibus odit voluptatem, aliquid amet rem vitae neque magni non! Magni accusamus doloribus dolore odio dolores corrupti nam dicta sit incidunt possimus ad animi consequatur, excepturi quod maxime fugit amet perspiciatis earum.</p>
+</body>
+
+
+</html>

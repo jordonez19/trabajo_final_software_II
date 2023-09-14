@@ -7,6 +7,20 @@ export const conection = {
 }
 
 export const mailTo = {
-  email: "robinsonjavier307@gmail.com",
-  pass: 'glamrusecwdghwhm'
+  email: "xavidev19@gmail.com",
+  pass: 'iehatnhbmfsvlyep'
 }
+
+
+
+
+/* 
+{
+  xavidev19
+  iehatnhbmfsvlyep
+
+
+  javier19pedraza;
+  lkzukcvbchxgaked;
+}
+ */
