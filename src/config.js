@@ -11,9 +11,6 @@ export const mailTo = {
   pass: 'iehatnhbmfsvlyep'
 }
 
-
-
-
 /* 
 {
   xavidev19
