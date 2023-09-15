@@ -1,8 +1,8 @@
 //authorization
 import config from "../../config";
 import Jwt from "jsonwebtoken";
-import UserModel from "../../models/user";
-import RoleModel from "../../models/roles";
+import UserModel from "../../models/user"; //llamar controlador 
+import RoleModel from "../../models/roles"; //llamar controlador 
 //-------------------------------------------------------------
 export const verifyToken = async (req, res, next) => {
   try {

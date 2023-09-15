@@ -11,6 +11,15 @@ export const mailTo = {
   pass: 'iehatnhbmfsvlyep'
 }
 
+
+const AWS = require("aws-sdk");
+
+AWS.config.update({
+  region: "EE. UU. Este (Norte de Virginia) us-east-1",
+  accessKeyId: "s3://bucket-preguntepues/novakademia/",
+  secretAccessKey: "arn:aws:s3:::bucket-preguntepues/novakademia/",
+});
+
 /* 
 {
   xavidev19

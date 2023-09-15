@@ -1,14 +1,14 @@
 import routes from "./routes/router";
 import pkj from "../package.json";
 import { createRoles } from "./libs/initialSetup";
+
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
 const cors = require("cors");
 
 createRoles();
-
-app.use(express.json());
+app.use(express.json({ limit: "10mb" }));
 app.use(morgan("tiny"));
 app.use(cors());
 app.set("pkj", pkj);
@@ -26,7 +26,7 @@ app.get("/", (req, res) => {
       "http://localhost:3002/api/auth/resetpassword",
       "http://localhost:3002/api/users/",
       "http://localhost:3002/api/mailto/",
-      "http://localhost:3002/api/",
+      "http://localhost:3002/api/imagesbanner",
       "http://localhost:3002/api/",
     ],
   });
