@@ -22,3 +22,29 @@ export const mailTo = {
   lkzukcvbchxgaked;
 }
  */
+
+ 
+
+
+
+
+
+
+/* 
+{
+
+  AWS_BUCKET_NAME=novakademia
+  AWS_BUCKET_REGION=us-east-1
+  AWS_PUBLIC_KEY=AKIAULNPTKBBHYXEWBHW
+  AWS_SECRET_KEY=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
+
+  Clave de acceso AKI
+  Clave de acceso secreta Itj
+
+  xavidev19
+  iehatnhbmfsvlyep
+
+  javier19pedraza;
+  lkzukcvbchxgaked;
+}
+ */

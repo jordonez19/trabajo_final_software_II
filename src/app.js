@@ -1,6 +1,6 @@
 import routes from "./routes/router";
 import pkj from "../package.json";
-import { createRoles } from "./libs/initialSetup";
+import { createRoles } from "./utils/initialSetup";
 
 const express = require("express");
 const app = express();
