@@ -1,6 +1,16 @@
 import Image from "../../models/imagesBanner";
-import { AWS_BUCKET_REGION, AWS_PUBLIC_KEY, AWS_SECRET_KEY } from "../../config";
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { awsS3 } from "../../config";
+
+const { AWS_BUCKET_NAME, AWS_BUCKET_REGION, AWS_PUBLIC_KEY, AWS_SECRET_KEY } =
+  awsS3;
+
+import {
+  S3Client,
+  ListObjectsCommand,
+  GetObjectCommand,
+  DeleteObjectCommand,
+  PutObjectCommand,
+} from "@aws-sdk/client-s3";
 
 const s3Client = new S3Client({
   region: AWS_BUCKET_REGION,
@@ -10,6 +20,7 @@ const s3Client = new S3Client({
   },
 });
 
+//post image folder
 export const createImageS3 = async (req, res) => {
   try {
     const image = req.file;
@@ -19,7 +30,7 @@ export const createImageS3 = async (req, res) => {
     }
 
     const uploadParams = {
-      Bucket: config.AWS_BUCKET_NAME,
+      Bucket: AWS_BUCKET_NAME,
       Key: "folder/" + Date.now() + "-" + image.originalname,
       Body: image.buffer,
       ContentType: image.mimetype,
@@ -44,54 +55,47 @@ export const createImageS3 = async (req, res) => {
 };
 
 
-//-------------------------------------------------------------
-//-------------------------------------------------------------
 
 export const getAllImages = async (req, res) => {
   try {
-    const images = await Image.find();
-    res.json(images);
+    const listParams = {
+      Bucket: AWS_BUCKET_NAME,
+    };
+
+    const listCommand = new ListObjectsCommand(listParams);
+
+    try {
+      const listData = await s3Client.send(listCommand);
+      const imageKeys = listData.Contents.map((object) => object.Key);
+
+      const images = [];
+
+      for (const key of imageKeys) {
+        const getParams = {
+          Bucket: AWS_BUCKET_NAME,
+          Key: key,
+        };
+
+        const getCommand = new GetObjectCommand(getParams);
+        const getData = await s3Client.send(getCommand);
+
+        const image = {
+          key: key,
+          data: getData.Body.toString("base64"),
+        };
+
+        images.push(image);
+      }
+
+      res.json({ images });
+    } catch (err) {
+      console.error(err);
+      return res
+        .status(500)
+        .json({ message: "Error retrieving images from S3." });
+    }
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "Error al obtener las imágenes." });
-  }
-};
-
-export const getImageById = async (req, res) => {
-  try {
-    const image = await Image.findById(req.params.id);
-    if (!image) {
-      return res.status(404).json({ message: "Imagen no encontrada." });
-    }
-    res.json(image);
-  } catch (error) {
-    res.status(500).json({ message: "Error al obtener la imagen." });
-  }
-};
-
-export const createImage = async (req, res) => {
-  try {
-    const { name, image } = req.body;
-    const base64Data = image.toString("base64");
-    const newImage = new Image({
-      name: name,
-      image: base64Data,
-    });
-    await newImage.save();
-    res.json({ message: "Imagen subida exitosamente." });
-  } catch (error) {
-    res.status(500).json({ message: "Error al subir la imagen." });
-  }
-};
-
-export const deleteImage = async (req, res) => {
-  try {
-    const image = await Image.findById(req.params.id);
-    if (!image) {
-      return res.status(404).json({ message: "Imagen no encontrada." });
-    }
-    await image.remove();
-    res.json({ message: "Imagen eliminada exitosamente." });
-  } catch (error) {
-    res.status(500).json({ message: "Error al eliminar la imagen." });
   }
 };

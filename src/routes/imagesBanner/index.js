@@ -30,20 +30,3 @@ router.post(
 router.delete("/:id", responseHandler(imagesBanner.deleteImage));
 
 export default router;
-
-/* 
-
-// Configura la carpeta de destino local
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "./image"); // Reemplaza "carpeta-local" con la ruta de la carpeta local donde deseas guardar los archivos.
-  },
-  filename: function (req, file, cb) {
-    // Genera un nombre de archivo único (puedes personalizar esto según tus necesidades)
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, file.fieldname + "-" + uniqueSuffix);
-  },
-});
-
-
-*/
