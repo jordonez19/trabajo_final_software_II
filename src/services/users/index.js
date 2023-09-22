@@ -21,5 +21,3 @@ export const getUsers = async (req, res) => {
         res.status(500).json({ error: 'Hubo un error al obtener los usuarios' });
     }
 }
-
-//_---------------------------------------------

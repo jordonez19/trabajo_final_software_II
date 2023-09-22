@@ -10,22 +10,25 @@ const storage = multer.memoryStorage({
 });
 
 const upload = multer({ storage });
+/* --------------------------------------------- */
 
-router.get("/", responseHandler(imagesBanner.getAllImages));
+//router.get("/", responseHandler(imagesBanner.getAllImages));
+/* --------------------------------------------- */
 
-router.get("/:id", responseHandler(imagesBanner.getImageById));
-
+router.get("/", responseHandler(imagesBanner.getImageByETag));
+/* --------------------------------------------- */
 router.post(
   "/",
   upload.single("image"),
   responseHandler(imagesBanner.createImage)
 );
-
+/* --------------------------------------------- */
 router.post(
   "/s3",
   upload.single("image"),
   responseHandler(imagesBanner.createImageS3)
 );
+/* --------------------------------------------- */
 
 router.delete("/:id", responseHandler(imagesBanner.deleteImage));
 
