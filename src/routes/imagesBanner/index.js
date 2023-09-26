@@ -10,26 +10,18 @@ const storage = multer.memoryStorage({
 });
 
 const upload = multer({ storage });
-/* --------------------------------------------- */
+//get all
+router.get("/s3", responseHandler(imagesBanner.getFiles));
+//id
+router.get("/s3/:etag", responseHandler(imagesBanner.getFile));
+//url
+router.get("/s3/url/:etag", responseHandler(imagesBanner.getFileUrl));
+//download
+router.get("/downloads3/:etag", responseHandler(imagesBanner.downloadFile));
+//upload img
+router.post("/s3", upload.single("image"), responseHandler(imagesBanner.uploadFile));
 
-//router.get("/", responseHandler(imagesBanner.getAllImages));
-/* --------------------------------------------- */
-
-router.get("/", responseHandler(imagesBanner.getImageByETag));
-/* --------------------------------------------- */
-router.post(
-  "/",
-  upload.single("image"),
-  responseHandler(imagesBanner.createImage)
-);
-/* --------------------------------------------- */
-router.post(
-  "/s3",
-  upload.single("image"),
-  responseHandler(imagesBanner.createImageS3)
-);
-/* --------------------------------------------- */
-
-router.delete("/:id", responseHandler(imagesBanner.deleteImage));
+//delete img
+//router.delete("/:id", responseHandler(imagesBanner.deleteImage));
 
 export default router;

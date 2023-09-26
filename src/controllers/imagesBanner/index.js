@@ -1,4 +1,6 @@
 import { awsS3 } from "../../config";
+import fs from "fs";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import {
   S3Client,
   ListObjectsCommand,
@@ -6,8 +8,7 @@ import {
   PutObjectCommand,
 } from "@aws-sdk/client-s3";
 
-const { AWS_BUCKET_NAME, AWS_BUCKET_REGION, AWS_PUBLIC_KEY, AWS_SECRET_KEY } =
-  awsS3;
+const { AWS_BUCKET_NAME, AWS_BUCKET_REGION, AWS_PUBLIC_KEY, AWS_SECRET_KEY } = awsS3;
 
 const s3Client = new S3Client({
   region: AWS_BUCKET_REGION,
@@ -18,32 +19,23 @@ const s3Client = new S3Client({
 });
 
 // Subir imagen al bucket
-export const createImageS3 = async (req, res) => {
+export const uploadFile = async (req, res) => {
   try {
     const image = req.file;
-
     if (!image) {
       return res.status(400).json({ message: "No image uploaded." });
     }
-
     const uploadParams = {
       Bucket: AWS_BUCKET_NAME,
-      Key: "folder/" + Date.now() + "-" + image.originalname,
+      Key: Date.now() + "-" + image.originalname,
       Body: image.buffer,
       ContentType: image.mimetype,
     };
 
-    const command = new PutObjectCommand(uploadParams);
-
     try {
-      const data = await s3Client.send(command);
-
-      console.log(data);
-
-      res.json({
-        message: "Imagen subida exitosamente.",
-        imageUrl: data.Location,
-      });
+      const command = new PutObjectCommand(uploadParams);
+      const result = await s3Client.send(command);
+      return res.status(200).json({ result });
     } catch (err) {
       console.error(err);
       return res.status(500).json({ message: "Error uploading image to S3." });
@@ -54,44 +46,70 @@ export const createImageS3 = async (req, res) => {
   }
 };
 
-// Retrieve an object by ETag
-export const getImageByETag = async (req, res) => {
+// Obtener imagen del bucket
+export const getFile = async (req, res) => {
   try {
-    const objectKey = "folder/1695356711111-betester.png"; // Replace with the object key you want to retrieve
-    const eTagToCheck = "36dac711239ff411b20857a547ffbce0";
-    const getParams = {
+    const params = req.params.etag;
+    const command = new GetObjectCommand({
       Bucket: AWS_BUCKET_NAME,
-      Key: objectKey,
-      IfNoneMatch: eTagToCheck,
-    };
-
-    const getCommand = new GetObjectCommand(getParams);
-    console.log("getCommand", getCommand);
-    try {
-      const response = await s3Client.send(getCommand);
-      console.log("response", response);
-
-      // Check for a 304 (Not Modified) response.
-      if (response.$metadata.httpStatusCode === 304) {
-        return res.status(304).json({ message: "Object has not changed." });
-      }
-
-      // If the ETag does not match, you can access the object's content.
-      const objectData = await response.Body.read();
-
-      // Set the appropriate Content-Type header for the response.
-      res.setHeader("Content-Type", response.ContentType);
-
-      // Send the object data in the response.
-      res.send(objectData);
-    } catch (err) {
-      console.error(err);
-      return res
-        .status(500)
-        .json({ message: "Error retrieving image from S3." });
-    }
+      Key: params,
+    });
+    let result = await s3Client.send(command);
+    const etag = result.ETag;
+    result = result.$metadata;
+    res.status(200).json({ etag: etag, result });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error al obtener la imagen." });
+    res.status(500).json({ message: "Error al obtener la imagen del bucket." });
+  }
+};
+
+// Obtener imagen del bucket
+export const downloadFile = async (req, res) => {
+  try {
+    const params = req.params.etag;
+    const command = new GetObjectCommand({
+      Bucket: AWS_BUCKET_NAME,
+      Key: params,
+    });
+    let result = await s3Client.send(command);
+
+    result = result.Body.pipe(fs.createWriteStream("./images/image.png"));
+
+    res.status(200).json({ message: "file downloaded", result });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error al obtener la imagen del bucket." });
+  }
+};
+
+// Obtener todo lo del bucket
+export const getFiles = async (req, res) => {
+  try {
+    const command = new ListObjectsCommand({
+      Bucket: AWS_BUCKET_NAME,
+    });
+    let result = await s3Client.send(command);
+    result = result.Contents;
+    res.status(200).json({ result });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error al cargar el bucket." });
+  }
+};
+
+//get file url
+export const getFileUrl = async (req, res) => {
+  try {
+    const params = req.params.etag;
+    const command = new GetObjectCommand({
+      Bucket: AWS_BUCKET_NAME,
+      Key: params,
+    });
+    let result = await getSignedUrl(s3Client, command, { expiresIn: 3600 });
+    res.status(200).json({ url: result });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error al obtener la imagen url." });
   }
 };

@@ -5,10 +5,17 @@ const responseHandler = (handlerFunction) => {
       if (res.headersSent) {
         return;
       }
-      const statusCode = data.statusCode || 200;
+      let statusCode = data.statusCode || 200;
+      const httpStatusCode = data.httpStatusCode || 200;
       const responseData = data.data || null;
 
-      res.status(statusCode).json(responseData);
+      if (statusCode === undefined) {
+        statusCode = httpStatusCode;
+      }
+
+      res
+        .status(statusCode)
+        .json({ statusCode, httpStatusCode, ...responseData });
     } catch (error) {
       if (!res.headersSent) {
         const code = error.code || 500;
