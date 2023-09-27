@@ -4,8 +4,8 @@ import RolesModel from "../../models/roles";
 import Jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
 
-const email = mailTo.email
-const pass = mailTo.pass
+const email = mailTo.email;
+const pass = mailTo.pass;
 
 export const signup = async (req, res) => {
   const { userName, email, password, roles } = req.body;
@@ -15,7 +15,6 @@ export const signup = async (req, res) => {
     email,
     password: await UsersModel.encryptPassword(password),
   });
-
   if (roles) {
     const foundRoles = await RolesModel.find({ name: { $in: roles } });
     newUser.roles = foundRoles.map((role) => role._id);
@@ -23,13 +22,10 @@ export const signup = async (req, res) => {
     const role = await RolesModel.findOne({ name: "user" });
     newUser.roles = [role._id];
   }
-
   const savedUser = await newUser.save();
-
   const token = Jwt.sign({ id: savedUser }, config.SECRET, {
     expiresIn: 86400,
   });
-
   res.json({ token: token, user: newUser });
 };
 
@@ -77,7 +73,7 @@ const sendPasswordResetEmail = async (user, resetToken) => {
     service: "gmail",
     auth: {
       user: email,
-      pass: pass,   
+      pass: pass,
     },
   });
 
@@ -167,7 +163,9 @@ export const resetPassword = async (req, res) => {
     });
 
     if (!user) {
-      return res.status(400).json({ message: "Invalid or expired reset token" });
+      return res
+        .status(400)
+        .json({ message: "Invalid or expired reset token" });
     }
 
     // Update the user's password
@@ -182,7 +180,3 @@ export const resetPassword = async (req, res) => {
     res.status(400).json({ message: "Invalid reset token" });
   }
 };
-
-
-
-
