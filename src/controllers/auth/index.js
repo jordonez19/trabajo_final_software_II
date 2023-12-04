@@ -35,7 +35,6 @@ export const signin = async (req, res) => {
   }).populate("roles");
 
   if (!userFound) return res.status(400).json({ message: "user not found" });
-  console.log(userFound);
 
   const matchPassword = await UsersModel.comparePassword(
     req.body.password,
@@ -154,7 +153,6 @@ export const requestPasswordReset = async (req, res) => {
 // Route to handle password reset with token
 export const resetPassword = async (req, res) => {
   const { token, newPassword } = req.body;
-
   try {
     // Find the user by the token's ID and check if the token is not expired
     const user = await UsersModel.findOne({

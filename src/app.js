@@ -25,8 +25,8 @@ app.get("/", (req, res) => {
       "http://localhost:3002/api/auth/signin",
       "http://localhost:3002/api/auth/resetpassword",
       "http://localhost:3002/api/users/",
-      "http://localhost:3002/api/mailto/",
       "http://localhost:3002/api/imagesbanner",
+      "http://localhost:3002/api/mailto/",
       "http://localhost:3002/api/",
     ],
   });
