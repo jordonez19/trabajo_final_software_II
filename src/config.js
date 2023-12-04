@@ -8,6 +8,13 @@ export const conection = {
   MONGODB_URI: process.env.MONGODB_URI,
 };
 
+export const conectionMysql = {
+MYSQL_DATABASE: 'trabajo_final',
+MYSQL_USERNAME: 'root',
+MYSQL_PASSWORD: '6452487',
+MYSQL_HOST: process.env.MYSQL_HOST
+};
+
 export const mailTo = {
   email: "xavidev19@gmail.com",
   pass: "iehatnhbmfsvlyep",
@@ -19,6 +26,7 @@ export const awsS3 = {
   AWS_PUBLIC_KEY: process.env.AWS_PUBLIC_KEY,
   AWS_SECRET_KEY: process.env.AWS_SECRET_KEY,
 };
+
 /* 
 #PORT------------------->>
 PORT=3002

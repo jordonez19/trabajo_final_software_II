@@ -9,8 +9,8 @@
     "dev": "nodemon src/index.js --exec babel-node"
   },
   "keywords": [],
-    "author": {
-    "name":"EPICONTIGO",
+  "author": {
+    "name": "EPICONTIGO",
     "author1": "Carlos Barbosa",
     "author2": "Nicolas Perez",
     "author3": "Javier Ordonez"
@@ -29,7 +29,9 @@
     "mongoose": "^7.0.3",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
-    "nodemailer": "^6.9.5"
+    "mysql2": "^3.6.5",
+    "nodemailer": "^6.9.5",
+    "sequelize": "^6.35.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.22.15",

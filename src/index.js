@@ -1,6 +1,7 @@
 import app from "./app";
 import { conection } from "./config";
 import "./database/mongodb";
+import "./database/mysql";
 
 require("dotenv").config();
 
