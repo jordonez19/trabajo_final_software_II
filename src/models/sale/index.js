@@ -1,7 +1,7 @@
 // modelos/ventas.js
 const { DataTypes } = require("sequelize");
 const sequelize = require("../../database/mysql");
-const Cliente = require("./clientes");
+const Cliente = require("../client");
 
 const Sale = sequelize.define("Venta", {
   num_factura: {
