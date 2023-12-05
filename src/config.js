@@ -9,10 +9,10 @@ export const conection = {
 };
 
 export const conectionMysql = {
-MYSQL_DATABASE: 'trabajo_final',
-MYSQL_USERNAME: 'root',
-MYSQL_PASSWORD: '6452487',
-MYSQL_HOST: process.env.MYSQL_HOST
+  MYSQL_DATABASE: "trabajo_final",
+  MYSQL_USERNAME: "root",
+  MYSQL_PASSWORD: "6452487",
+  MYSQL_HOST: process.env.MYSQL_HOST,
 };
 
 export const mailTo = {

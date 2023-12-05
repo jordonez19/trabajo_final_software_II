@@ -1,28 +1,22 @@
 import { Router } from "express";
-import * as productsController from "../../controllers/products";
+import * as productsController from "../../controllers/product";
 import { authToken } from "../../middlewares";
 
 const router = Router();
-router.get("/", [authToken.verifyToken], productsController.getProducts);
+router.get("/", productsController.getData);
 
-router.get("/:id", [authToken.verifyToken], productsController.getProductById);
+router.get("/:id", productsController.getDataById);
 
-router.post(
-  "/",
-  [authToken.verifyToken, authToken.isModerator],
-  productsController.createProduct
-);
+router.post("/", productsController.postData);
 
-router.put(
-  "/:id",
-  [authToken.verifyToken, authToken.isAdmin],
-  productsController.updateProductById
-);
+router.put("/:id", productsController.updateDataById);
 
-router.delete(
-  "/:id",
-  [authToken.verifyToken, authToken.isAdmin],
-  productsController.deleteProductById
-);
+router.delete("/:id", productsController.deleteById);
 
 export default router;
+
+//[authToken.verifyToken],
+//[authToken.verifyToken],
+//[authToken.verifyToken, authToken.isModerator],
+//[authToken.verifyToken, authToken.isAdmin],
+//[authToken.verifyToken, authToken.isAdmin],

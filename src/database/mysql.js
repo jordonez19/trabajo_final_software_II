@@ -21,3 +21,5 @@ sequelize
   .catch((err) => {
     console.error("No se puede conectar a MYSQLDB:", err);
   });
+
+module.exports = sequelize;

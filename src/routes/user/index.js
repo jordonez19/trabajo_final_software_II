@@ -7,13 +7,13 @@ const router = Router();
 
 router.get(
   "/",
-  authToken.verifyToken,
+  //authToken.verifyToken,
   responseHandler(usersController.getUsers)
 );
  
 router.post(
   "/",
-  [authToken.verifyToken, authToken.isAdmin, verifySignup.checkRolesExist],
+  //[authToken.verifyToken, authToken.isAdmin, verifySignup.checkRolesExist],
   responseHandler(usersController.createUser)
 );
 
