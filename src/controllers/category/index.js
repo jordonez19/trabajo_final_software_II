@@ -1,77 +1,71 @@
-const sequelize = require("../../database/mysql");
+import Category from "../../models/category";
 
-const getData = async () => {
+// Controlador para obtener todas las categorías
+const getData = async (req, res) => {
   try {
-    const query = `
-      SELECT * FROM categorias;
-    `;
-    const [categories, metadata] = await sequelize.query(query);
-    return categories;
+    const categorias = await Category.findAll();
+    res.json(categorias);
   } catch (error) {
-    throw new Error(error.message);
+    res.status(500).json({ message: error.message });
   }
 };
 
-const getDataById = async (id) => {
+// Controlador para obtener una categoría por su ID
+const getDataById = async (req, res) => {
+  const { id } = req.params;
   try {
-    const query = `
-      SELECT * FROM categorias WHERE id = :id;
-    `;
-    const [category, metadata] = await sequelize.query(query, {
-      replacements: { id },
-    });
-    return category[0];
+    const categoria = await Category.findByPk(id);
+    if (!categoria) {
+      return res.status(404).json({ message: 'Categoría no encontrada' });
+    }
+    res.json(categoria);
   } catch (error) {
-    throw new Error(error.message);
+    res.status(500).json({ message: error.message });
   }
 };
 
-const postData = async (data) => {
-  const { nombre, descripcion } = data;
+// Controlador para crear una nueva categoría
+const postData = async (req, res) => {
+  const { name, description } = req.body;
   try {
-    const query = `
-      INSERT INTO categories (nombre, descripcion)
-      VALUES (:nombre, :descripcion);
-    `;
-    await sequelize.query(query, {
-      replacements: { nombre, descripcion },
-    });
-    return { message: "Category added successfully" };
+    const nuevaCategoria = await Category.create({ name, description });
+    res.status(201).json(nuevaCategoria);
   } catch (error) {
-    throw new Error(error.message);
+    res.status(500).json({ message: error.message });
   }
 };
 
-const updateDataById = async (id, newData) => {
+// Controlador para actualizar una categoría existente
+const updateDataById = async (req, res) => {
+  const { id } = req.params;
+  const { name, description } = req.body;
   try {
-    const { nombre, descripcion } = newData;
-    const query = `
-      UPDATE categories
-      SET nombre = :nombre, descripcion = :descripcion
-      WHERE id = :id;
-    `;
-    await sequelize.query(query, {
-      replacements: { id, nombre, descripcion },
-    });
-    return { message: "Category updated successfully" };
+    const categoria = await Category.findByPk(id);
+    if (!categoria) {
+      return res.status(404).json({ message: 'Categoría no encontrada' });
+    }
+    categoria.name = name;
+    categoria.description = description;
+    await categoria.save();
+    res.json(categoria);
   } catch (error) {
-    throw new Error(error.message);
+    res.status(500).json({ message: error.message });
   }
 };
 
-const deleteById = async (id) => {
+// Controlador para eliminar una categoría existente
+const deleteById = async (req, res) => {
+  const { id } = req.params;
   try {
-    const query = `
-      DELETE FROM categorias
-      WHERE id = :id;
-    `;
-    await sequelize.query(query, {
-      replacements: { id },
-    });
-    return { message: "Category deleted successfully" };
+    const categoria = await Category.findByPk(id);
+    if (!categoria) {
+      return res.status(404).json({ message: 'Categoría no encontrada' });
+    }
+    await categoria.destroy();
+    res.json({ message: 'Categoría eliminada exitosamente' });
   } catch (error) {
-    throw new Error(error.message);
+    res.status(500).json({ message: error.message });
   }
 };
 
-module.exports = { getData, getDataById, postData, updateDataById, deleteById };
+export {getData, getDataById, postData, updateDataById, deleteById}

@@ -58,55 +58,17 @@ const postData = async (req, res) => {
 
 const updateDataById = async (req, res) => {
   const { id } = req.params;
-
-  const { dni_cliente, telefono } = req.body;
-
+  const { telefono } = req.body;
   try {
-    const client = await ClientPhone.findByPk(id);
-    console.log(client)
-    if (!client) {
-      return res
-        .status(404)
-        .json({ message: "telefono del cliente no encontrado" });
+    const telefonoCliente = await ClientPhone.findByPk(id);
+    if (!telefonoCliente) {
+      return res.status(404).json({ message: 'Teléfono del cliente no encontrado' });
     }
-
-    // Verificar si existen ventas asociadas al cliente
-    const existingSales = await sequelize.models.Sale.findAll({
-      where: { dni_cliente: id },
-    });
-
-    if (existingSales.length > 0) {
-      return res.status(400).json({
-        message:
-          "No se puede actualizar: hay ventas asociadas a este telefono del cliente",
-      });
-    }
-
-    const query = `
-        UPDATE telefonos_clientes
-        SET 
-        dni_cliente = :dni_cliente,
-        telefono = :telefono,
-        WHERE id = :id
-      `;
-
-    const [updatedRows] = await sequelize.query(query, {
-      replacements: {
-        dni_cliente,
-        telefono,
-      },
-      type: sequelize.QueryTypes.UPDATE,
-    });
-
-    if (updatedRows === 0) {
-      return res
-        .status(404)
-        .json({ message: "telefono del cliente no encontrado" });
-    }
-
-    res.json({ message: "telefono del cliente actualizado correctamente" });
+    telefonoCliente.telefono = telefono;
+    await telefonoCliente.save();
+    res.json(telefonoCliente);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -137,4 +99,4 @@ const deleteById = async (req, res) => {
   }
 };
 
-module.exports = { getData, getDataById, postData, updateDataById, deleteById };
+export { getData, getDataById, postData, updateDataById, deleteById };

@@ -1,73 +1,75 @@
 // Obtener todos los usuarios
 
-import Product from "../../models/product";
+import Provider from "../../models/provider";
 
-
+// Controlador para obtener todos los proveedores
 const getData = async (req, res) => {
   try {
-    const productos = await Product.findAll();
-    res.json(productos);
+    const proveedores = await Provider.findAll();
+    res.json(proveedores);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
-// Crear un nuevo usuario
-const postData = async (req, res) => {
-  const { username, email } = req.body;
-  try {
-    const newUser = await Product.create({ username, email });
-    res.status(201).json(newUser);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-};
-
-// Obtener un usuario por ID
+// Controlador para obtener un proveedor por su número de identificación (DNI)
 const getDataById = async (req, res) => {
   const { id } = req.params;
   try {
-    const user = await Product.findByPk(id);
-    if (!user) {
-      return res.status(404).json({ message: "Usuario no encontrado" });
+    const proveedor = await Provider.findByPk(id);
+    if (!proveedor) {
+      return res.status(404).json({ message: 'Proveedor no encontrado' });
     }
-    res.json(user);
+    res.json(proveedor);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
-// Actualizar un usuario por ID
+// Controlador para crear un nuevo proveedor
+const postData = async (req, res) => {
+  const { dni_provedor, nombre, direccion, telefono, pagina_web } = req.body;
+  try {
+    const nuevoProveedor = await Provider.create({ dni_provedor, nombre, direccion, telefono, pagina_web });
+    res.status(201).json(nuevoProveedor);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Controlador para actualizar un proveedor existente
 const updateDataById = async (req, res) => {
   const { id } = req.params;
-  const { username, email } = req.body;
+  const { nombre, direccion, telefono, pagina_web } = req.body;
   try {
-    const user = await Product.findByPk(id);
-    if (!user) {
-      return res.status(404).json({ message: "Usuario no encontrado" });
+    const proveedor = await Provider.findByPk(id);
+    if (!proveedor) {
+      return res.status(404).json({ message: 'Proveedor no encontrado' });
     }
-    await Product.update({ username, email }, { where: { id } });
-    res.json({ message: "Usuario actualizado correctamente" });
+    proveedor.nombre = nombre;
+    proveedor.direccion = direccion;
+    proveedor.telefono = telefono;
+    proveedor.pagina_web = pagina_web;
+    await proveedor.save();
+    res.json(proveedor);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
-// Eliminar un usuario por ID
+// Controlador para eliminar un proveedor existente
 const deleteById = async (req, res) => {
   const { id } = req.params;
   try {
-    const user = await Product.findByPk(id);
-    if (!user) {
-      return res.status(404).json({ message: "Usuario no encontrado" });
+    const proveedor = await Provider.findByPk(id);
+    if (!proveedor) {
+      return res.status(404).json({ message: 'Proveedor no encontrado' });
     }
-    await Product.destroy({ where: { id } });
-    res.json({ message: "Usuario eliminado correctamente" });
+    await proveedor.destroy();
+    res.json({ message: 'Proveedor eliminado exitosamente' });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
-export {
-    getData, getDataById, postData, updateDataById, deleteById
-};
+export { getData, getDataById, postData, updateDataById, deleteById };

@@ -1,111 +1,69 @@
 const sequelize = require("../../database/mysql");
+import Sale from "../../models/sale";
 
 const getData = async (req, res) => {
   try {
-    const query = "SELECT * FROM productos_venta";
-    const saleProducts = await sequelize.query(query, {
-      type: sequelize.QueryTypes.SELECT,
-    });
-    res.json(saleProducts);
+    const ventas = await Sale.findAll();
+    res.json(ventas);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
 const getDataById = async (req, res) => {
   const { id } = req.params;
   try {
-    const query = "SELECT * FROM productos_venta WHERE id = :id";
-    const saleProduct = await sequelize.query(query, {
-      replacements: { id },
-      type: sequelize.QueryTypes.SELECT,
-    });
-
-    if (saleProduct.length === 0) {
-      return res.status(404).json({ message: "Producto de venta no encontrado" });
+    const venta = await Sale.findByPk(id);
+    if (!venta) {
+      return res.status(404).json({ message: 'Venta no encontrada' });
     }
-
-    res.json(saleProduct[0]);
+    res.json(venta);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
 const postData = async (req, res) => {
   const { fecha, dni_cliente, descuento, monto_final } = req.body;
   try {
-    const query = `
-      INSERT INTO productos_venta (fecha, dni_cliente, descuento, monto_final) 
-      VALUES (:fecha, :dni_cliente, :descuento, :monto_final)
-    `;
-    await sequelize.query(query, {
-      replacements: {
-        fecha,
-        dni_cliente,
-        descuento,
-        monto_final,
-      },
-      type: sequelize.QueryTypes.INSERT,
-    });
-
-    res.status(201).json({ message: "Producto de venta creado correctamente" });
+    const nuevaVenta = await Sale.create({ fecha, dni_cliente, descuento, monto_final });
+    res.status(201).json(nuevaVenta);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
 const updateDataById = async (req, res) => {
   const { id } = req.params;
   const { fecha, dni_cliente, descuento, monto_final } = req.body;
-
   try {
-    const query = `
-      UPDATE productos_venta
-      SET fecha = :fecha,
-          dni_cliente = :dni_cliente,
-          descuento = :descuento,
-          monto_final = :monto_final
-      WHERE id = :id
-    `;
-
-    const [updatedRows] = await sequelize.query(query, {
-      replacements: {
-        fecha,
-        dni_cliente,
-        descuento,
-        monto_final,
-        id,
-      },
-      type: sequelize.QueryTypes.UPDATE,
-    });
-
-    if (updatedRows === 0) {
-      return res.status(404).json({ message: "Producto de venta no encontrado" });
+    const venta = await Sale.findByPk(id);
+    if (!venta) {
+      return res.status(404).json({ message: 'Sale no encontrada' });
     }
-
-    res.json({ message: "Producto de venta actualizado correctamente" });
+    venta.fecha = fecha;
+    venta.dni_cliente = dni_cliente;
+    venta.descuento = descuento;
+    venta.monto_final = monto_final;
+    await venta.save();
+    res.json(venta);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
 const deleteById = async (req, res) => {
   const { id } = req.params;
   try {
-    const query = "DELETE FROM productos_venta WHERE id = :id";
-    const deletedRows = await sequelize.query(query, {
-      replacements: { id },
-      type: sequelize.QueryTypes.DELETE,
-    });
-
-    if (deletedRows === 0) {
-      return res.status(404).json({ message: "Producto de venta no encontrado" });
+    const venta = await Sale.findByPk(id);
+    if (!venta) {
+      return res.status(404).json({ message: 'Venta no encontrada' });
     }
-
-    res.json({ message: "Producto de venta eliminado correctamente" });
+    await venta.destroy();
+    res.json({ message: 'Venta eliminada exitosamente' });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
-module.exports = { getData, getDataById, postData, updateDataById, deleteById };
+export { getData, getDataById, postData, updateDataById, deleteById };

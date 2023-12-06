@@ -19,10 +19,10 @@ export default function (app) {
 
   //app
   app.use("/api/product", productsRoutes);
-  app.use("/api/category", categoryRoutes);
   app.use("/api/client", clientRoutes);
   app.use("/api/clientphone", clientphoneRoutes);
   app.use("/api/sale", saleRoutes);
-  app.use("/api/provider", providerRoutes);
   app.use("/api/saleproduct", saleproductRoutes); 
+  app.use("/api/provider", providerRoutes);
+  app.use("/api/category", categoryRoutes);
 }

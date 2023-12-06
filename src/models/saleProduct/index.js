@@ -7,6 +7,11 @@ const Venta = require("../sale");
 const saleProduct = sequelize.define(
   "ProductoVenta",
   {
+    id_producto_venta: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
     id_venta: {
       type: DataTypes.INTEGER,
       references: {

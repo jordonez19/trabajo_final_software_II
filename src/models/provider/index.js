@@ -5,7 +5,7 @@ const sequelize = require("../../database/mysql");
 const Provider = sequelize.define(
   "Proveedor",
   {
-    dni: {
+    dni_provedor: {
       type: DataTypes.STRING(50),
       primaryKey: true,
     },
