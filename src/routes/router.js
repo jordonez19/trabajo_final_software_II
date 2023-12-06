@@ -11,13 +11,12 @@ import saleRoutes from "./sale";
 import saleproductRoutes from "./saleProduct";
 import providerRoutes from "./provider";
 
-
 export default function (app) {
   app.use("/api/auth", authRoutes);
   app.use("/api/users", usersRoutes);
   app.use("/api/mailto", mailtoRoutes);
   app.use("/api/imagesbanner", imagesBanner);
-  
+
   //app
   app.use("/api/product", productsRoutes);
   app.use("/api/category", categoryRoutes);
@@ -25,6 +24,5 @@ export default function (app) {
   app.use("/api/clientphone", clientphoneRoutes);
   app.use("/api/sale", saleRoutes);
   app.use("/api/provider", providerRoutes);
-  app.use("/api/saleproduct", saleproductRoutes);
-
+  app.use("/api/saleproduct", saleproductRoutes); 
 }

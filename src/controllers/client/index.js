@@ -1,9 +1,11 @@
-import Client from "../../models/client";
-import Sale from "../../models/sale";
+const sequelize = require("../../database/mysql");
 
 const getData = async (req, res) => {
   try {
-    const clients = await Client.findAll();
+    const query = "SELECT * FROM clientes";
+    const clients = await sequelize.query(query, {
+      type: sequelize.QueryTypes.SELECT,
+    });
     res.json(clients);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -20,15 +22,22 @@ const postData = async (req, res) => {
     direccion_ciudad,
   } = req.body;
   try {
-    const newCategory = await Client.create({
-      dni,
-      nombre,
-      direccion_calle,
-      direccion_numero,
-      direccion_comuna,
-      direccion_ciudad,
+    const query = `
+      INSERT INTO clients (dni, nombre, direccion_calle, direccion_numero, direccion_comuna, direccion_ciudad)
+      VALUES (:dni, :nombre, :direccion_calle, :direccion_numero, :direccion_comuna, :direccion_ciudad)
+    `;
+    await sequelize.query(query, {
+      replacements: {
+        dni,
+        nombre,
+        direccion_calle,
+        direccion_numero,
+        direccion_comuna,
+        direccion_ciudad,
+      },
+      type: sequelize.QueryTypes.INSERT,
     });
-    res.status(201).json(newCategory);
+    res.status(201).json({ message: "Cliente creado correctamente" });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -37,11 +46,17 @@ const postData = async (req, res) => {
 const getDataById = async (req, res) => {
   const { id } = req.params;
   try {
-    const client = await Client.findByPk(id);
-    if (!client) {
-      return res.status(404).json({ message: "cliente no encontrada" });
+    const query = "SELECT * FROM clientes WHERE id_client = :id";
+    const clients = await sequelize.query(query, {
+      replacements: { id },
+      type: sequelize.QueryTypes.SELECT,
+    });
+
+    if (clients.length === 0) {
+      return res.status(404).json({ message: "Cliente no encontrado" });
     }
-    res.json(client);
+
+    res.json(clients[0]);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -60,35 +75,50 @@ const updateDataById = async (req, res) => {
   } = req.body;
 
   try {
-    const client = await Client.findByPk(id);
+    const client = await sequelize.models.Client.findByPk(id);
 
     if (!client) {
       return res.status(404).json({ message: "Cliente no encontrado" });
     }
 
     // Verificar si existen ventas asociadas al cliente
-    const existingSales = await Sale.findAll({ where: { dni_cliente: id } });
+    const existingSales = await sequelize.models.Sale.findAll({
+      where: { dni_cliente: id },
+    });
 
     if (existingSales.length > 0) {
-      return res
-        .status(400)
-        .json({
-          message:
-            "No se puede actualizar: hay ventas asociadas a este cliente",
-        });
+      return res.status(400).json({
+        message: "No se puede actualizar: hay ventas asociadas a este cliente",
+      });
     }
 
-    await Client.update(
-      {
+    const query = `
+      UPDATE clients
+      SET dni = :dni,
+          nombre = :nombre,
+          direccion_calle = :direccion_calle,
+          direccion_numero = :direccion_numero,
+          direccion_comuna = :direccion_comuna,
+          direccion_ciudad = :direccion_ciudad
+      WHERE id_client = :id
+    `;
+
+    const [updatedRows] = await sequelize.query(query, {
+      replacements: {
         dni,
         nombre,
         direccion_calle,
         direccion_numero,
         direccion_comuna,
         direccion_ciudad,
+        id,
       },
-      { where: { dni: id } }
-    );
+      type: sequelize.QueryTypes.UPDATE,
+    });
+
+    if (updatedRows === 0) {
+      return res.status(404).json({ message: "Cliente no encontrado" });
+    }
 
     res.json({ message: "Cliente actualizado correctamente" });
   } catch (error) {
@@ -99,15 +129,25 @@ const updateDataById = async (req, res) => {
 const deleteById = async (req, res) => {
   const { id } = req.params;
   try {
-    const client = await Client.findByPk(id);
+    const client = await sequelize.models.Client.findByPk(id);
     if (!client) {
-      return res.status(404).json({ message: "cliente no encontrada" });
+      return res.status(404).json({ message: "Cliente no encontrado" });
     }
-    await Client.destroy({ where: { id_client: id } });
-    res.json({ message: "cliente eliminada correctamente" });
+    const query = "DELETE FROM clientes WHERE id_client = :id";
+    const deletedRows = await sequelize.query(query, {
+      replacements: { id },
+      type: sequelize.QueryTypes.DELETE,
+    });
+
+    if (deletedRows === 0) {
+      return res.status(404).json({ message: "Cliente no encontrado" });
+    }
+
+    res.json({ message: "Cliente eliminado correctamente" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
+
 
 export { getData, getDataById, postData, updateDataById, deleteById };
