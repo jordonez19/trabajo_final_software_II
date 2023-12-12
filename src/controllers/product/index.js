@@ -18,6 +18,8 @@ const postData = async (req, res) => {
       INSERT INTO productos (nombre, precio_actual, stock, id_proveedor, id_categoria) 
       VALUES (:nombre, :precio_actual, :stock, :id_proveedor, :id_categoria)
     `;
+
+    
     await sequelize.query(query, {
       replacements: {
         nombre,
